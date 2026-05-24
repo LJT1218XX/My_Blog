@@ -1,9 +1,10 @@
 const { app, BrowserWindow, ipcMain, Menu } = require('electron');
 const path = require('node:path');
 
-let mainWindow = null;
-
 const isMac = process.platform === 'darwin';
+const isDev = process.env.VITE_DEV_SERVER_URL;
+
+let mainWindow = null;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -24,7 +25,12 @@ function createWindow() {
     },
   });
 
-  mainWindow.loadFile(path.join(__dirname, 'renderer', 'index.html'));
+  if (isDev) {
+    mainWindow.loadURL(process.env.VITE_DEV_SERVER_URL);
+    mainWindow.webContents.openDevTools();
+  } else {
+    mainWindow.loadFile(path.join(__dirname, '..', 'dist', 'renderer', 'index.html'));
+  }
 }
 
 const menuTemplate = [
