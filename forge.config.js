@@ -5,7 +5,7 @@ module.exports = {
     asar: true,
     name: '拾光集',
     appBundleId: 'com.shiguangji.blog',
-    osxSign: {},
+    osxSign: undefined,
   },
   makers: [
     new MakerZIP({}, ['darwin', 'linux']),

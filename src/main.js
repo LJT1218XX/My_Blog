@@ -3,15 +3,19 @@ const path = require('node:path');
 
 let mainWindow = null;
 
+const isMac = process.platform === 'darwin';
+
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
     minWidth: 800,
     minHeight: 600,
-    titleBarStyle: 'hidden',
-    vibrancy: 'under-window',
-    visualEffectState: 'active',
+    ...(isMac && {
+      titleBarStyle: 'hidden',
+      vibrancy: 'under-window',
+      visualEffectState: 'active',
+    }),
     title: '拾光集',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -38,7 +42,7 @@ const menuTemplate = [
       { label: '最小化', role: 'minimize' },
       { label: '缩放', role: 'zoom' },
       { type: 'separator' },
-      { label: '关闭窗口', role: 'hide' },
+      { label: '关闭窗口', role: 'close' },
     ],
   },
 ];
